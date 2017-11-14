@@ -1,8 +1,10 @@
 
 public class Main {
-
+	private static SnakeFrame sf;
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		SnakeGame sg = new SnakeGame();
+		sf = new SnakeFrame(sg);
+		System.out.println("Game over");
 	}
 
 }
