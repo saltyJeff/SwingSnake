@@ -5,13 +5,20 @@ public class SnakeSegment
 	private SnakeSegment previous;
 	private int x;
 	private int y;
-	
+	private Directions dir;
 	public SnakeSegment(int a, int b, SnakeSegment n, SnakeSegment p)
 	{
 		x = a;
 		y = b;
 		next = n;
 		previous = p;
+		dir = Directions.DOWN;
+	}
+	public Directions dir() {
+		return dir;
+	}
+	public void dir(Directions d) {
+		dir = d;
 	}
 	public void x(int ex) {
 		x = ex;
