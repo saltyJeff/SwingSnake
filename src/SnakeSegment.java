@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.LinkedList;
@@ -5,8 +6,8 @@ import java.util.Queue;
 
 public class SnakeSegment {
 	//finals
-	public static final int SPEED = 80;
-	public static final int RADIUS = 15;
+	public static final int SPEED = 100;
+	public static final int RADIUS = 20;
 	
 	//instances
 	public SnakeSegment next;
@@ -53,17 +54,27 @@ public class SnakeSegment {
 	}
 	public void checkWaypoint () {
 		Waypoint nxt = waypoints.peek();
-		if(nxt != null && point.distanceSq(nxt.point) < 4) {
+		if(nxt != null && point.distance(nxt.point) < 1.2) {
 			dir = nxt.dir;
 			waypoints.remove();
 		}
 	}
-	public void drawAndUpdate(Graphics g, double deltaTime) {
+	public void drawAndUpdate(Graphics g, double deltaTime, int index) {
 		shiftPosition(deltaTime);
 		checkWaypoint();
+		if(index == 0) {
+			g.setColor(Color.GREEN);
+			
+		}
+		else if(index % 2 == 1) {
+			g.setColor(Color.YELLOW);
+		}
+		else {
+			g.setColor(Color.RED);
+		}
 		g.fillOval(point.x - RADIUS, point.y - RADIUS, 2*RADIUS, 2*RADIUS);
 		if(next != null) {
-			next.drawAndUpdate(g, deltaTime);
+			next.drawAndUpdate(g, deltaTime, index+1);
 		}
 	}
 }

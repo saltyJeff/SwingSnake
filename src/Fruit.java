@@ -1,17 +1,15 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 
 public class Fruit {
-	private int x;
-	private int y;
-	public int x() {
-		return x;
+	public static final int RADIUS = 10;
+	public Point point;
+	public Fruit(Point p) {
+		point = p;
 	}
-	public int y() {
-		return y;
-	}
-	public void x(int a) {
-		x=a;
-	}
-	public void y(int b) {
-		y=b;
+	public void drawFruit(Graphics g) {
+		g.setColor(Color.blue);
+		g.fillOval(point.x - RADIUS, point.y - RADIUS, 2 * RADIUS, 2 * RADIUS);
 	}
 }

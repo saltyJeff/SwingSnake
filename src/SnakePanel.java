@@ -22,7 +22,7 @@ public class SnakePanel extends JPanel {
 			public void run() {
 				self.repaint();
 			}
-		}, 0, 40);
+		}, 0, 17);
 	}
 	@Override
 	public void paintComponent (Graphics g) {
