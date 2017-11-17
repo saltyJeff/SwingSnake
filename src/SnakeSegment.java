@@ -1,47 +1,69 @@
+import java.awt.Graphics;
+import java.awt.Point;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class SnakeSegment 
-{
-	private SnakeSegment next;
-	private SnakeSegment previous;
-	private int x;
-	private int y;
-	private Directions dir;
-	public SnakeSegment(int a, int b, SnakeSegment n, SnakeSegment p)
-	{
-		x = a;
-		y = b;
+public class SnakeSegment {
+	//finals
+	public static final int SPEED = 80;
+	public static final int RADIUS = 15;
+	
+	//instances
+	public SnakeSegment next;
+	public Point point;
+	public Queue<Waypoint> waypoints = new LinkedList<Waypoint>();
+	public Directions dir;
+	public SnakeSegment (SnakeSegment n, Point p, Directions d) {
 		next = n;
-		previous = p;
-		dir = Directions.DOWN;
-	}
-	public Directions dir() {
-		return dir;
-	}
-	public void dir(Directions d) {
+		point = p;
 		dir = d;
 	}
-	public void x(int ex) {
-		x = ex;
+	public void setDirection(Directions newDir) {
+		if(newDir.equals(dir)) {
+			return;
+		}
+		dir = newDir;
+		Waypoint w = new Waypoint(new Point(point), newDir);
+		propogateWaypoint(w, next);
 	}
-	public void y(int why) {
-		y = why;
+	public void propogateWaypoint(Waypoint w, SnakeSegment seg) {
+		if(seg == null) {
+			return;
+		}
+		seg.waypoints.add(w);
+		if(seg.next != null) {
+			seg.next.propogateWaypoint(w, seg.next);
+		}
 	}
-	public void next(SnakeSegment n) {
-		next = n;
+	public void shiftPosition (double deltaTime) {
+		switch(dir) {
+			case UP:
+				point.translate(0, (int)(-deltaTime * SPEED));
+				break;
+			case DOWN:
+				point.translate(0, (int)(deltaTime * SPEED));
+				break;
+			case LEFT:
+				point.translate((int)(-deltaTime * SPEED), 0);
+				break;
+			case RIGHT:
+				point.translate((int)(deltaTime * SPEED), 0);
+				break;
+		}
 	}
-	public void prev(SnakeSegment p) {
-		previous = p;
+	public void checkWaypoint () {
+		Waypoint nxt = waypoints.peek();
+		if(nxt != null && point.distanceSq(nxt.point) < 4) {
+			dir = nxt.dir;
+			waypoints.remove();
+		}
 	}
-	public int x() {
-		return x;
-	}
-	public int y() {
-		return y;
-	}
-	public SnakeSegment next() {
-		return next;
-	}
-	public SnakeSegment prev() {
-		return previous;
+	public void drawAndUpdate(Graphics g, double deltaTime) {
+		shiftPosition(deltaTime);
+		checkWaypoint();
+		g.fillOval(point.x - RADIUS, point.y - RADIUS, 2*RADIUS, 2*RADIUS);
+		if(next != null) {
+			next.drawAndUpdate(g, deltaTime);
+		}
 	}
 }

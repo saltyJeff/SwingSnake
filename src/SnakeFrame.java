@@ -61,6 +61,6 @@ public class SnakeFrame extends JFrame {
 	}
 	public void updateDirection(Directions d) {
 		directionLabel.setText(d.toString());
-		game.direction(d);
+		game.changeDir(d);
 	}
 }
