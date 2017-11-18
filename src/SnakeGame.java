@@ -12,7 +12,7 @@ public class SnakeGame {
 	private long timeToNextFruit;
 	private List<Fruit> fruit = new LinkedList<Fruit>();
 	public SnakeGame () {
-		head = new SnakeSegment(null, new Point(400, 300), Directions.DOWN);
+		head = new SnakeSegment(new Point(400, 300), Directions.DOWN, null, null);
 		lastUpdate = System.currentTimeMillis();
 		lastFruit = System.currentTimeMillis();
 		timeToNextFruit = (long)(3000 * Math.random() + 2);
@@ -20,7 +20,8 @@ public class SnakeGame {
 		grow();
 	}
 	private void grow () {
-		SnakeSegment seg = new SnakeSegment(head, new Point(head.point), head.dir);
+		SnakeSegment seg = new SnakeSegment(new Point(head.point), head.dir, head, null);
+		head.prev = seg;
 		switch(head.dir) {
 			case UP:
 				seg.point.translate(0, -2*SnakeSegment.RADIUS);

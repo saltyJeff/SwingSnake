@@ -6,16 +6,18 @@ import java.util.Queue;
 
 public class SnakeSegment {
 	//finals
-	public static final int SPEED = 100;
+	public static final int SPEED = 170;
 	public static final int RADIUS = 20;
 	
 	//instances
 	public SnakeSegment next;
+	public SnakeSegment prev;
 	public Point point;
 	public Queue<Waypoint> waypoints = new LinkedList<Waypoint>();
 	public Directions dir;
-	public SnakeSegment (SnakeSegment n, Point p, Directions d) {
+	public SnakeSegment (Point p, Directions d, SnakeSegment n, SnakeSegment pr) {
 		next = n;
+		prev = pr;
 		point = p;
 		dir = d;
 	}
@@ -54,8 +56,22 @@ public class SnakeSegment {
 	}
 	public void checkWaypoint () {
 		Waypoint nxt = waypoints.peek();
-		if(nxt != null && point.distance(nxt.point) < 1.2) {
+		if(nxt != null && point.distance(nxt.point) <= 10) {
 			dir = nxt.dir;
+			switch(dir) {
+				case UP:
+					point.y = prev.point.y + 2 * RADIUS;
+					break;
+				case DOWN:
+					point.y = prev.point.y - 2 * RADIUS;
+					break;
+				case LEFT:
+					point.x = prev.point.x + 2 * RADIUS;
+					break;
+				case RIGHT:
+					point.x = prev.point.x - 2 * RADIUS;
+					break;
+			}
 			waypoints.remove();
 		}
 	}

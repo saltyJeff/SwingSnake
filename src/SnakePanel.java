@@ -16,13 +16,13 @@ public class SnakePanel extends JPanel {
 		setPreferredSize(new Dimension(800, 600));
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		Timer t = new Timer();
-		SnakePanel self = this;
+		final SnakePanel self = this;
 		t.scheduleAtFixedRate(new TimerTask () {
 			@Override
 			public void run() {
 				self.repaint();
 			}
-		}, 0, 17);
+		}, 0, 15);
 	}
 	@Override
 	public void paintComponent (Graphics g) {
