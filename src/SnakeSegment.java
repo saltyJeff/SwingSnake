@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class SnakeSegment {
 	//finals
-	public static final int SPEED = 170;
+	public static final int SPEED = 100;
 	public static final int RADIUS = 20;
 	
 	//instances
